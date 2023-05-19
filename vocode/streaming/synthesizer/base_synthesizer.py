@@ -35,6 +35,9 @@ FILLER_PHRASES = [
 FILLER_AUDIO_PATH = os.path.join(os.path.dirname(__file__), "filler_audio")
 TYPING_NOISE_PATH = "%s/typing-noise.wav" % FILLER_AUDIO_PATH
 
+def dtmf_wav_path(digit: str) -> str:
+    directory = os.path.join(os.path.dirname(__file__), "dtmf_audio")
+    return "%s/dtmf-%s.500ms.b16.wav" % (directory, digit)
 
 def encode_as_wav(chunk: bytes, synthesizer_config: SynthesizerConfig) -> bytes:
     output_bytes_io = io.BytesIO()
