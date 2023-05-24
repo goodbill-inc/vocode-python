@@ -387,21 +387,31 @@ class StreamingConversation(Generic[OutputDeviceType]):
             try:
                 message, synthesis_result = item.payload
 
-                # Check if the message indicates that we should press a DTMF key.  If so, send the DTMF tone wav to the output device.
-                # This happens in addition to normal processing, which means we will play the tone and also speak the message.
-                self.conversation.logger.debug("Checking if message is DTMF: %s" % message.text)
-                match = PRESSES_DTMF_REGEX.match(message.text)
-                if match and match.group(1):
-                    self.conversation.logger.debug("Detected DTMF: %s" % match.group(1))
-                    wav_file_path = dtmf_wav_path(match.group(1))
-                    output_bytes = convert_wav(
-                        wav_file_path,
-                        output_sample_rate=self.conversation.synthesizer.get_synthesizer_config().sampling_rate,
-                        output_encoding=self.conversation.synthesizer.get_synthesizer_config().audio_encoding,
-                    )
-                    self.conversation.output_device.send_nonblocking(output_bytes)
-                else:
-                    self.conversation.logger.debug("Message is not DTMF")
+                # # Check if the message indicates that we should press a DTMF key.  If so, send the DTMF tone wav to the output device.
+                # # This happens in addition to normal processing, which means we will play the tone and also speak the message.
+                # self.conversation.logger.debug("Checking if message is DTMF: %s" % message.text)
+                # match = PRESSES_DTMF_REGEX.match(message.text.lower())
+                # if match and match.group(1):
+                #     dtmf_key = match.group(1)
+                #     self.conversation.logger.debug("Detected DTMF: %s" % dtmf_key)
+                #     if hasattr(self.conversation, "play_dtmf"):
+                #         self.conversation.play_dtmf(dtmf_key)
+                #     else:
+                #         self.conversation.logger.debug("Playing DTMF wav")
+                #         wav_file_path = dtmf_wav_path(dtmf_key)
+                #         # header_bytes = bytearray()
+                #         output_bytes = bytearray()
+                #         with open(wav_file_path, "rb") as wav:
+                #             # header_bytes = wav.read(58)
+                #             output_bytes = wav.read()
+                #         # output_bytes = convert_wav(
+                #         #     wav_file_path,
+                #         #     output_sample_rate=self.conversation.synthesizer.get_synthesizer_config().sampling_rate,
+                #         #     output_encoding=self.conversation.synthesizer.get_synthesizer_config().audio_encoding,
+                #         # )
+                #         self.conversation.output_device.send_nonblocking(output_bytes)
+
+                self.conversation.logger.debug("Message is not DTMF")
 
                 message_sent, cut_off = await self.conversation.send_speech_to_output(
                     message.text,

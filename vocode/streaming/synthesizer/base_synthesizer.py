@@ -37,7 +37,11 @@ TYPING_NOISE_PATH = "%s/typing-noise.wav" % FILLER_AUDIO_PATH
 
 def dtmf_wav_path(digit: str) -> str:
     directory = os.path.join(os.path.dirname(__file__), "dtmf_audio")
-    return "%s/dtmf-%s.500ms.b16.wav" % (directory, digit)
+    path = "%s/dtmf-%s.8000hz.mulaw.raw" % (directory, digit)
+    # path = "%s/dtmf-%s.wav" % (directory, digit)
+    print("dtmf_wav_path", path)
+    return path
+
 
 def encode_as_wav(chunk: bytes, synthesizer_config: SynthesizerConfig) -> bytes:
     output_bytes_io = io.BytesIO()

@@ -1,7 +1,7 @@
 import logging
 from typing import Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 
 from vocode.streaming.telephony.templates import Templater
 from vocode.streaming.utils.base_router import BaseRouter
@@ -23,7 +23,7 @@ class TwiMLRouter(BaseRouter):
             "/twiml/initiate_call/{id}", self.call_twiml, methods=["POST"]
         )
 
-    def call_twiml(self, id: str):
+    def call_twiml(self, id: str, request: Request):
         return self.templater.get_connection_twiml(base_url=self.base_url, call_id=id)
 
     def get_router(self) -> APIRouter:

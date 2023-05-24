@@ -39,8 +39,10 @@ def convert_wav(
     output_sample_rate=8000,
     output_encoding=AudioEncoding.LINEAR16,
 ):
+    print("---- convert_wav, output_sample_rate", output_sample_rate, "output_encoding", output_encoding)
     with wave.open(file, "rb") as wav:
         raw_wav = wav.readframes(wav.getnframes())
+        print("framerate", wav.getframerate())
         return convert_linear_audio(
             raw_wav,
             input_sample_rate=wav.getframerate(),

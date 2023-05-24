@@ -15,7 +15,7 @@
 import os
 import time
 
-duration = 0.5 # half second
+duration = 0.5 # seconds
 duration_ms = int(duration * 1000)
 
 key_info = '''
@@ -58,11 +58,11 @@ for key in keys:
     key_name = replacements[key_name]
   filename = "dtmf-%s.%sms.wav" % (key_name, duration_ms)
   # Play the sound and record it
-  command = "play -n synth %s sin %s sin %s remix - | rec %s trim 0 %s" % (duration, key["freq1"], key["freq2"], filename, duration)
+  command = "play -G -n synth %s sin %s sin %s remix - | rec %s trim 0 %s" % (duration, key["freq1"], key["freq2"], filename, duration)
   os.system(command)
   # Convert it to the format that the wave library expects
   new_filename = filename.replace(".wav", ".b16.wav")
-  command = "sox %s -b 16 %s" % (filename, new_filename)
+  command = "sox %s -b 16 %s vol 2.0" % (filename, new_filename)
   os.system(command)
   # Delete the original file
   os.remove(filename)
