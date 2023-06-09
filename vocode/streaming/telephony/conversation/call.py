@@ -220,6 +220,12 @@ class Call(StreamingConversation):
         # Reference:
         # https://stackoverflow.com/questions/73129566/sending-dtmf-through-a-stream/76325543
         self.logger.debug(f"Call.play_dtmf {dtmf_key}")
+        
+        if dtmf_key == "pound":
+            dtmf_key = "#"
+        elif dtmf_key == "star":
+            dtmf_key = "*"
+
         self.playing_dtmf = True
         # twiml = self.templater.get_play_digits_twiml(digits=dtmf_key)
         twiml = self.templater.get_play_digits_and_connect_call_twiml(

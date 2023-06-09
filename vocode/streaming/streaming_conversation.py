@@ -60,7 +60,7 @@ from vocode.streaming.utils.worker import (
     InterruptibleWorker,
 )
 
-DTMF_INTENT_REGEX = re.compile(".*\*presses ([0-9])\*.*")
+DTMF_INTENT_REGEX = re.compile(".*pressing (0|1|2|3|4|5|6|7|8|9|star|pound).*")
 
 OutputDeviceType = TypeVar("OutputDeviceType", bound=BaseOutputDevice)
 
